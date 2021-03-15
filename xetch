@@ -63,7 +63,7 @@ def get_packages():
                 "brew list",
                 "flatpak list --app",
                 "snap list",
-                "equery list "*""
+                "equery list \"*\""
                ]
     # default value is []
     installed_package_count = []
