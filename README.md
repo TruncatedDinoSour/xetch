@@ -11,7 +11,7 @@
  .,       ,.    memory        | 1508/3840MB [39%]
  ```
 
-### sha512 checksum (shasum -a 512): 
+### sha512 checksum (shasum -a 512) of /xetch: 
 ```sh
 d7e34a8126de6c14dd9b6a1fcceb24eca0ff6d3aac9291ce4146326352170cb8f49aa2c32d9ab71450bc8c033e2b6e5c35d687eebe5bafa37df55c2c43a52d1d
 ```
