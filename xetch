@@ -62,7 +62,9 @@ def get_packages():
                 "rpm -qa",
                 "brew list",
                 "flatpak list --app",
-                "snap list"]
+                "snap list",
+                "equery list "*""
+               ]
     # default value is []
     installed_package_count = []
     # setting the default value for the package manager
