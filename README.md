@@ -4,6 +4,7 @@
 ### Installation
 ```
 $ cd /path/to/install_uninstall/dir/
+$ chmod +x ./install
 $ sudo ./install
 $ xetch
 ```
@@ -11,6 +12,7 @@ $ xetch
 ### Removal
 ```
 $ cd /path/to/install_uninstall/dir/
+$ chmod +x ./uninstall
 $ sudo ./uninstall
 ```
 
