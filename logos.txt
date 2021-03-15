@@ -1,0 +1,20 @@
+alpine -
+arch -
+arco -
+artix -
+debian -
+elementary -
+endeavour -
+fedora -
+linux lite -
+mac os -
+mageiria -
+gentoo -
+manjaro -
+open suse -
+pop os -
+slackware -
+solaris -
+ubuntu -
+void -
+
