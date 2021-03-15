@@ -18,14 +18,6 @@ __date__ = "2021/03/14"
 __author__ = "B00bleaTea"
 __credits__ = ["https://roly.neocities.org/"]
 
-try:
-    if sys.argv[1] == '-c':
-        print('''art by   : https://roly.neocities.org/
-coded by : https://acactusinpain.neocities.org/''')
-        sys.exit()
-except IndexError:
-    pass
-
 
 def get_packages():
     # defining the ways you can list installed packages
@@ -337,6 +329,29 @@ art_list = {
   {colour_palette["gold"]}^`~'^      ]
   {colour_palette["light_blue"]}LINUX      ]''', ']')
 }
+
+try:
+    if sys.argv[1] == '-c':
+        print('''Art By: https://roly.neocities.org/
+Coded By: https://acactusinpain.neocities.org/''')
+        sys.exit()
+    elif sys.argv[1] == '-d':
+        print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used,
+                      ram_total,
+                      ram_used, art_list[sys.argv[2]]))
+        sys.exit()
+    elif sys.argv[1] == '-D':
+        for key in art_list:
+            print(key)
+        sys.exit()
+    elif sys.argv[1] == '-h':
+        print('''-c - display the credits
+-d "[distro name]" - display a distro of your choice
+-D - display available distro names
+-h - display this page''')
+        sys.exit()
+except (IndexError, KeyError):
+    pass
 
 try:
     print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used, ram_total,
