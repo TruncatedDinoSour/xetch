@@ -1,9 +1,20 @@
 ## xetch
 #### a simple GNU/linux tool for fetching sysinfo written in python
 ***
+```sh
+                ari@ari-arch
+      ,         os            | Arch Linux
+     ,,,        kernel        | 5.10.23-1-lts, 5.11.6-arch1-1
+    ,,,,,       uptime        | 3h 49m 18s
+   ,,,,,,,      packages      | 947 (pacman)
+  .,*   *,.     / usage       | 70/233GB [30%]
+ .,       ,.    memory        | 1508/3840MB [39%]
+ ```
+
 ### Installation
 ```
-$ cd /path/to/install_uninstall/dir/
+$ git clone https://github.com/B00bleaTea/xetch
+$ cd xetch/install_uninstall/
 $ chmod +x ./install
 $ ./install
 $ xetch
@@ -11,7 +22,8 @@ $ xetch
 
 ### Removal
 ```
-$ cd /path/to/install_uninstall/dir/
+$ git clone https://github.com/B00bleaTea/xetch
+$ cd xetch/install_uninstall/
 $ chmod +x ./uninstall
 $ ./uninstall
 ```
