@@ -1,5 +1,6 @@
 SHELL REQUIREMENTS:
 python3
+python3-pip / python-pip
 
 PYTHON REQUIREMENTS:
 colorama
