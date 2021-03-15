@@ -4,29 +4,6 @@
 # ~*~ art by https://roly.neocities.org/ ~*~
 # ~*~ code by https://acactusinpain.neocities.org/ ~*~
 
-############ LOGOS ############
-# alpine
-# arch
-# arco
-# artix
-# debian
-# elementary
-# endeavour
-# fedora
-# linux lite
-# mac os
-# mageia
-# gentoo
-# manjaro
-# open suse
-# pop os
-# slackware
-# solaris
-# ubuntu
-# void
-#################################
-
-
 import re
 import subprocess
 import getpass
@@ -63,9 +40,8 @@ def get_packages():
                 "brew list",
                 "flatpak list --app",
                 "snap list",
-                "equery list \"*\""
-               ]
-    # default value is []
+                "equery list \"*\""]
+    # default value is empty
     installed_package_count = []
     # setting the default value for the package manager
     package_manager = ''
@@ -92,7 +68,8 @@ def make_art(art: str, delimiter: str = '*'):
     return art.replace(delimiter, '').split('\n')
 
 
-# the colour palatte for xetch
+# the colour palate for xetch, can be edited to your taste
+# use unicode escape sequences to have custom colours
 colour_palette = {
     "logo": Fore.CYAN,
     "main_text": Fore.BLUE,
@@ -137,8 +114,10 @@ try:
         distro = f.read()
         # finding NAME= and removing it, leaving up with the distro only
         distro = pattern.search(distro).group()[5:].replace('"', '')
+# in file doesn't exist
 except FileNotFoundError:
     try:
+        # giving os_release_file a new value
         os_release_file = '/usr/lib/os-release'
         with open(os_release_file, 'r') as f:
             # the pattern to find the distro name
@@ -146,8 +125,10 @@ except FileNotFoundError:
             distro = f.read()
             # finding NAME= and removing it, leaving up with the distro only
             distro = pattern.search(distro).group()[5:].replace('"', '')
+    # if that file doesn't exist
     except FileNotFoundError:
-        distro = subprocess.check_output(['uname', '-r'])
+        # find the type of their os
+        distro = subprocess.check_output(['uname', '-s'])
 
 # finding all specs of the system
 username = getpass.getuser()
@@ -156,12 +137,15 @@ kernel = subprocess.check_output(['ls', '/lib/modules/']).decode().replace('\n',
 system_uptime = time.gmtime(time.time() - psutil.boot_time())
 system_uptime = f"{system_uptime.tm_hour}h {system_uptime.tm_min}m {system_uptime.tm_sec}s"
 pacs = get_packages()
+# >> is a bitwise shift, shifting the values to get the values in
+# the measurement we want
 ram_total = psutil.virtual_memory().total >> 20
 ram_used = psutil.virtual_memory().used >> 20
 disk_total = shutil.disk_usage('/').total >> 30
 disk_used = shutil.disk_usage('/').used >> 30
 
-# ] is just a way of showing the boundries
+# ] is just a way of showing the boundaries
+# :) = tested, ? = not tested
 art_list = {
     # arco :)
     "arcolinux": make_art(f'''                 ]
@@ -357,6 +341,7 @@ art_list = {
 try:
     print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used, ram_total,
                   ram_used, art_list[distro.lower()]))
+# if the distro doesn't exist use the default linux logo
 except KeyError:
     print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used, ram_total,
                   ram_used, art_list["linux"]))
