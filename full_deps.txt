@@ -1,0 +1,6 @@
+SHELL REQUIREMENTS:
+python3
+
+PYTHON REQUIREMENTS:
+colorama
+psutil

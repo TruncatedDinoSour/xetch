@@ -1,0 +1,360 @@
+#! /bin/python3
+# -*- coding: utf-8 -*-
+
+# ~*~ art by https://roly.neocities.org/ ~*~
+# ~*~ code by https://acactusinpain.neocities.org/ ~*~
+
+############ LOGOS ############
+# alpine
+# arch
+# arco
+# artix
+# debian
+# elementary
+# endeavour
+# fedora
+# linux lite
+# mac os
+# mageia
+# gentoo
+# manjaro
+# open suse
+# pop os
+# slackware
+# solaris
+# ubuntu
+# void
+#################################
+
+
+import re
+import subprocess
+import getpass
+import socket
+import psutil
+import time
+import shutil
+import sys
+from colorama import Fore, Style
+
+__date__ = "2021/03/14"
+__author__ = "B00bleaTea"
+__credits__ = ["https://roly.neocities.org/"]
+
+try:
+    if sys.argv[1] == '-c':
+        print('''art by   : https://roly.neocities.org/
+coded by : https://acactusinpain.neocities.org/''')
+        sys.exit()
+except IndexError:
+    pass
+
+
+def get_packages():
+    # defining the ways you can list installed packages
+    pac_mans = ["apk info",
+                "pacman -Q",
+                "apt list --installed",
+                "dpkg -l",
+                "yum list installed",
+                "dnf list installed",
+                "zypper se --installed-only",
+                "rpm -qa",
+                "brew list",
+                "flatpak list --app",
+                "snap list"]
+    # default value is []
+    installed_package_count = []
+    # setting the default value for the package manager
+    package_manager = ''
+    # looping and trying
+    for pac in pac_mans:
+        try:
+            installed_package_count = subprocess.check_output(pac.split()).decode().split('\n')
+            package_manager = pac.split()[0]
+            break
+        except FileNotFoundError:
+            # if command fails
+            pass
+    # returning the package count
+    return len(installed_package_count), package_manager if package_manager else None
+
+
+# calculate percentage
+def calc_percentage(used: (int, float), total: (int, float)):
+    return round((used * 100) / total)
+
+
+# prepare art for use in the Art.art function
+def make_art(art: str, delimiter: str = '*'):
+    return art.replace(delimiter, '').split('\n')
+
+
+# the colour palatte for xetch
+colour_palette = {
+    "logo": Fore.CYAN,
+    "main_text": Fore.BLUE,
+    "user_at": Fore.YELLOW,
+    "normal_text": Style.RESET_ALL,
+    "white_text": Fore.WHITE,
+    "light_blue": Fore.LIGHTBLUE_EX,
+    "magenta_purple": Fore.LIGHTMAGENTA_EX,
+    "magenta": Fore.MAGENTA,
+    "orange": Fore.LIGHTRED_EX,
+    "light_green": Fore.LIGHTGREEN_EX,
+    "gold": Fore.LIGHTYELLOW_EX,
+    "red": Fore.RED,
+    "green": Fore.GREEN
+}
+
+
+class Art:
+    @classmethod
+    def art(cls, user: str, host: str, os: str,
+            kernels: str, uptime: str, packages: int,
+            pacman: str, total_root: int, used_root: int,
+            total_ram: float, used_ram: float, art: list):
+        art = f'''
+{art[0]}{user}{colour_palette["user_at"]}@{colour_palette["normal_text"]}{host}
+{colour_palette["logo"]}{art[1]}{colour_palette["main_text"]}os            | {colour_palette["normal_text"]}{os}
+{colour_palette["logo"]}{art[2]}{colour_palette["main_text"]}kernel        | {colour_palette["normal_text"]}{kernels}
+{colour_palette["logo"]}{art[3]}{colour_palette["main_text"]}uptime        | {colour_palette["normal_text"]}{uptime}
+{colour_palette["logo"]}{art[4]}{colour_palette["main_text"]}packages      | {colour_palette["normal_text"]}{packages} ({pacman})
+{colour_palette["logo"]}{art[5]}{colour_palette["main_text"]}/ usage       | {colour_palette["normal_text"]}{used_root}/{total_root}GB [{calc_percentage(used_root, total_root)}%]
+{colour_palette["logo"]}{art[6]}{colour_palette["main_text"]}memory        | {colour_palette["normal_text"]}{used_ram}/{total_ram}MB [{calc_percentage(used_ram, total_ram)}%]
+'''
+        return art[art.find('\n') + 1:art.rfind('\n')]
+
+
+# the path to the os-release file
+os_release_file = "/etc/os-release"
+try:
+    with open(os_release_file, 'r') as f:
+        # the pattern to find the distro name
+        pattern = re.compile(r"^[nN][aA][mM][eE]=.+")
+        distro = f.read()
+        # finding NAME= and removing it, leaving up with the distro only
+        distro = pattern.search(distro).group()[5:].replace('"', '')
+except FileNotFoundError:
+    try:
+        os_release_file = '/usr/lib/os-release'
+        with open(os_release_file, 'r') as f:
+            # the pattern to find the distro name
+            pattern = re.compile(r"^[nN][aA][mM][eE]=.+")
+            distro = f.read()
+            # finding NAME= and removing it, leaving up with the distro only
+            distro = pattern.search(distro).group()[5:].replace('"', '')
+    except FileNotFoundError:
+        distro = subprocess.check_output(['uname', '-r'])
+
+# finding all specs of the system
+username = getpass.getuser()
+hostname = socket.gethostname()
+kernel = subprocess.check_output(['ls', '/lib/modules/']).decode().replace('\n', ', ')[:-2]
+system_uptime = time.gmtime(time.time() - psutil.boot_time())
+system_uptime = f"{system_uptime.tm_hour}h {system_uptime.tm_min}m {system_uptime.tm_sec}s"
+pacs = get_packages()
+ram_total = psutil.virtual_memory().total >> 20
+ram_used = psutil.virtual_memory().used >> 20
+disk_total = shutil.disk_usage('/').total >> 30
+disk_used = shutil.disk_usage('/').used >> 30
+
+# ] is just a way of showing the boundries
+art_list = {
+    # arco :)
+    "arcolinux": make_art(f'''                 ]
+      __        ]
+     ----       ]
+    ------      ]
+   --------     ]
+  ----  {colour_palette["white_text"]}==={colour_palette["logo"]}-    ]
+ ---     {colour_palette["white_text"]}=={colour_palette["logo"]}--   ]'''[1:], ']'),
+
+    # arch :)
+    "arch linux": make_art(f'''                ]
+      {colour_palette["main_text"]},         ]
+     {colour_palette["main_text"]},,,        ]
+    {colour_palette["main_text"]},,,{colour_palette["logo"]},,       ]
+   ,,,,,,,      ]
+  .,*   *,.     ]
+ .,       ,.    ]''', ']'),
+
+    # alpine :)
+    "alpine linux": make_art(f'''                               ]
+       {colour_palette["white_text"]},..                     ]
+     {colour_palette["white_text"]}..   ,,      ..           ]
+    {colour_palette["white_text"]},,     .,   ..  ,,         ]
+   {colour_palette["white_text"]},,*       ,,.      ,.       ]
+  {colour_palette["white_text"]}.,*'*       ..       .,      ]
+ {colour_palette["white_text"]},.**'**       ''        ..    ]''', ']'),
+
+    # artix :)
+    "artix linux": make_art(f'''               ]
+      {colour_palette["light_blue"]},        ]
+     {colour_palette["light_blue"]},',       ]
+    {colour_palette["light_blue"]},,,,,      ]
+               ]
+  {colour_palette["logo"]}.,*   *,.    ]
+ {colour_palette["logo"]}.,       ,.   ]''', ']'),
+
+    # debian :)
+    "debian gnu/linux": make_art(f'''                   ]
+  {colour_palette["magenta_purple"]}/&&&&&*&\\        ]
+ {colour_palette["magenta_purple"]},&   .-.  &'      ]
+  {colour_palette["magenta_purple"]}&. |     [       ]
+  {colour_palette["magenta_purple"]}&   .___=        ]
+  {colour_palette["magenta_purple"]}\\&               ]
+    {colour_palette["magenta_purple"]}\\*             ]''', ']'),
+
+    # endeavour :)
+    "endeavouros": make_art(f'''                  ]
+     {colour_palette["orange"]}/  \\\\        ]
+    {colour_palette["orange"]}/ {colour_palette["magenta"]}/``{colour_palette["magenta_purple"]}\\\\       ]
+   {colour_palette["orange"]}/ {colour_palette["magenta"]}/````{colour_palette["magenta_purple"]}\\\\     ] 
+ {colour_palette["orange"]}/ {colour_palette["magenta"]}-`````_) {colour_palette["magenta_purple"]}\\     ]
+ {colour_palette["orange"]}/{colour_palette["magenta"]}_-___`` {colour_palette["magenta_purple"]}__=     ]
+  {colour_palette["orange"]}/={colour_palette["magenta"]}====={colour_palette["magenta_purple"]}--       ]''', ']'),
+
+    # manjaro :)
+    "manjaro linux": make_art(f'''               ]
+ {colour_palette["light_green"]}:::::: ::     ]
+ {colour_palette["light_green"]}:: ;;; ::     ]
+ {colour_palette["light_green"]}:: ;;; ::     ]
+ {colour_palette["light_green"]}:: ;;; ::     ]
+ {colour_palette["light_green"]}:: ;;; ::     ]
+ {colour_palette["light_green"]}:: ;;; ::     ]''', ']'),
+
+    # elementary :)
+    "elementary os": make_art(f'''                ]
+   {colour_palette["light_blue"]}a&&&&a       ]
+  {colour_palette["light_blue"]}'   a. '      ]
+ {colour_palette["light_blue"]}&  &  &  &     ]
+ {colour_palette["light_blue"]}&  &  &  &     ]
+  {colour_palette["light_blue"]}._ a'_ .      ]
+   {colour_palette["light_blue"]}*&&&&*       ]''', ']'),
+
+    # ubuntu :)
+    "ubuntu": make_art(f'''                  ]
+     {colour_palette["orange"]}( )          ]
+ {colour_palette["orange"]}_/        \\      ]
+{colour_palette["orange"]}( )  /--\\         ]
+ {colour_palette["orange"]}_   \\--/         ]
+  {colour_palette["orange"]}\\        /      ]
+     {colour_palette["orange"]}( )          ]''', ']'),
+
+    # gentoo :)
+    "gentoo": make_art(f'''                ]
+ {colour_palette["magenta_purple"]}_-----__       ]
+ {colour_palette["magenta_purple"]}(       \\\\     ]
+ {colour_palette["magenta_purple"]}\\\\   0  \\\\     ]
+  {colour_palette["magenta_purple"]}\\\\     )      ]
+ {colour_palette["magenta_purple"]}(     _/       ]
+ {colour_palette["magenta_purple"]}\\\\____/        ]''', ']'),
+
+    # linux lite ?
+    "linux lite": make_art(f'''              ]
+  {colour_palette["gold"]},           ]
+ {colour_palette["gold"]}"\\",         ]
+ {colour_palette["gold"]}"=\\=",       ]
+  {colour_palette["gold"]}"=\\=",      ]
+   {colour_palette["gold"]}"-\\-"      ]
+      {colour_palette["gold"]}\\       ]
+''', ']'),
+
+    # solaris ?
+    "solaris": make_art(f'''   ]                             ]
+     {colour_palette["gold"]}..`,,``..``.`..`           ]
+   {colour_palette["gold"]}`.`,.          ``..`         ]
+  {colour_palette["gold"]}.`.`               ``.`       ]
+ {colour_palette["gold"]}..`.                 ``.       ]
+ {colour_palette["gold"]}.`.`                  ``,`     ]
+ {colour_palette["gold"]}`.`                   ``.`     ]
+''', ']'),
+
+    # slackware :)
+    "slackware": make_art(f'''                    ]
+      {colour_palette["light_blue"]}x  x          ]
+   {colour_palette["light_blue"]}x   ___  x       ]
+ x   / __|    x     ]
+ {colour_palette["main_text"]}x   \\__ \\    x     ]
+   {colour_palette["main_text"]}x  |___/ x       ]
+      {colour_palette["main_text"]}x  x          ]
+''', ']'),
+
+    # openSUSE :)
+    "opensuse": make_art(f'''                     ]
+ {colour_palette["light_green"]}___|⎻⎻⎻⎻⎻⎻⎻\\_       ]
+ {colour_palette["light_green"]}     ---     \\_     ]
+ {colour_palette["light_green"]}     | *|     |     ]
+ {colour_palette["light_green"]}     ⎻⎻⎻       |    ]
+ {colour_palette["light_green"]}        ____/⎻      ]
+ {colour_palette["light_green"]}⎻⎻⎻⎻⎻⎻⎻             ]''', ']'),
+    "opensuse leap": make_art(f'''                     ]
+{colour_palette["light_green"]}___|⎻⎻⎻⎻⎻⎻⎻\\_       ]
+{colour_palette["light_green"]}     ---     \\_     ]
+{colour_palette["light_green"]}     | *|     |     ]
+{colour_palette["light_green"]}     ⎻⎻⎻       |    ]
+{colour_palette["light_green"]}        ____/⎻      ]
+{colour_palette["light_green"]}⎻⎻⎻⎻⎻⎻⎻             ]''', ']'),
+
+    # fedora :)
+    "fedora": make_art(f'''          ]
+   {colour_palette["main_text"]}__     ]
+  {colour_palette["main_text"]}/ _|    ]
+ {colour_palette["main_text"]}| |_     ]
+ {colour_palette["light_blue"]}|  _|    ]
+ {colour_palette["light_blue"]}| |      ]
+ {colour_palette["light_blue"]}|_|      ]''', ']'),
+
+    # macos :)
+    "darwin": make_art(f'''                       ]
+     {colour_palette["red"]}__ :'__           ]
+  {colour_palette["orange"]}.'`__`-'__``.        ]
+ {colour_palette["gold"]}:__________.-'        ]
+ {colour_palette["main_text"]}:_________:           ]
+  {colour_palette["magenta_purple"]}:_________`-;        ]
+  {colour_palette["magenta"]}`.__.-.__.\'          ]''', ']'),
+
+    # pop os :)
+    "pop!_os": make_art(f'''                    ]
+  {colour_palette["light_blue"]}_ __   ._.        ]
+ {colour_palette["light_blue"]}| '_ \\  | |        ]
+ {colour_palette["light_blue"]}| |_) | | |        ]
+ {colour_palette["light_blue"]}| .__/   \\|        ]
+ {colour_palette["light_blue"]}| |      __        ]
+ {colour_palette["light_blue"]}|_|      \\/        ]''', ']'),
+
+    # void :)
+    "void": make_art(f'''                    ]
+  {colour_palette["green"]}_ {colour_palette["light_green"]}\\\\______        ]
+ {colour_palette["green"]}| \\  {colour_palette["light_green"]}___  \\\\       ]
+ {colour_palette["green"]}|   {colour_palette["light_green"]}/   \\ |        ]
+ {colour_palette["green"]}|   {colour_palette["light_green"]}\\___/ |        ]
+ {colour_palette["green"]}|  {colour_palette["light_green"]}\\______ \\\\      ]
+  {colour_palette["green"]}-_______\\         ]''', ']'),
+
+    # mageia :)
+    "mageia": make_art(f'''                 ]
+    {colour_palette["white_text"]}* .` `       ]
+  {colour_palette["white_text"]}. . ` .        ]
+ {colour_palette["white_text"]}|⎻____⎻|        ]
+{colour_palette["white_text"]}|        |       ]
+ {colour_palette["white_text"]}\\      /        ]
+  {colour_palette["white_text"]}⎻⎻⎻⎻⎻⎻         ]''', ']'),
+
+    # default :)
+    "linux": make_art(f'''             ]
+   {colour_palette["white_text"]}.~.       ]
+   {colour_palette["white_text"]}/{colour_palette["gold"]}V{colour_palette["white_text"]}\\       ]
+  {colour_palette["white_text"]}// \\\\      ]
+ {colour_palette["white_text"]}/(   )\\     ]
+  {colour_palette["gold"]}^`~'^      ]
+  {colour_palette["light_blue"]}LINUX      ]''', ']')
+}
+
+try:
+    print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used, ram_total,
+                  ram_used, art_list[distro.lower()]))
+except KeyError:
+    print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used, ram_total,
+                  ram_used, art_list["linux"]))

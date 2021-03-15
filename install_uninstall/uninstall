@@ -1,0 +1,9 @@
+#! /bin/sh
+
+echo 'press <ENTER> to uninstall xetch...'
+read -p "" x
+
+sudo rm -vf /usr/bin/xetch || echo 'no instllation of xetch found'
+
+echo
+echo "we'll miss you"
