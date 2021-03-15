@@ -5,7 +5,7 @@
 ```
 $ cd /path/to/install_uninstall/dir/
 $ chmod +x ./install
-$ sudo ./install
+$ ./install
 $ xetch
 ```
 
@@ -13,7 +13,7 @@ $ xetch
 ```
 $ cd /path/to/install_uninstall/dir/
 $ chmod +x ./uninstall
-$ sudo ./uninstall
+$ ./uninstall
 ```
 
 ### Customization
