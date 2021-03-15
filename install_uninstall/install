@@ -3,9 +3,12 @@
 echo 'press <ENTER> to install xetch (any other installation of xetch will be overwritten)...'
 read -p "" x
 
-python3 -m pip install colorama
-python3 -m pip install psutil
+sudo chmod +x ../xetch
+
+python3 -m pip install -r ../requirements.txt
 sudo cp ../xetch /usr/bin/xetch
+
+sudo chmod +x /usr/bin/xetch
 
 echo
 echo 'thanks for installing xetch'
