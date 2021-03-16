@@ -17,4 +17,6 @@ slackware -
 solaris -
 ubuntu -
 void -
-
+mint -
+zorin -
+linux -
