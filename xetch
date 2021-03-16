@@ -367,9 +367,9 @@ Coded By: https://acactusinpain.neocities.org/''')
         # sys.exit() exits the program
         sys.exit()
     elif sys.argv[1] == '-d':
-        print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used,
-                      ram_total,
-                      ram_used, art_list[sys.argv[2]]))
+        print(
+            Art.art(username, hostname, distro, kernel, system_uptime, get_packages(), disk_total, disk_used, ram_total,
+                    ram_used, art_list[sys.argv[2]]))
         sys.exit()
     elif sys.argv[1] == '-D':
         for key in art_list:
