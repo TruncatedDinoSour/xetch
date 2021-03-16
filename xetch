@@ -14,7 +14,7 @@ import shutil
 import sys
 from colorama import Fore, Style
 
-__date__ = "2021/03/14"
+__date__ = "2021/03/16"
 __author__ = "B00bleaTea"
 __credits__ = ["https://roly.neocities.org/"]
 
@@ -30,24 +30,34 @@ def get_packages():
                 "zypper se --installed-only",
                 "rpm -qa",
                 "brew list",
-                "flatpak list --app",
+                "flatpak list",
                 "snap list",
                 "equery list \"*\""]
     # default value is empty
     installed_package_count = []
     # setting the default value for the package manager
-    package_manager = ''
+    package_managers = []
+    # default string
+    packager = ''
     # looping and trying
     for pac in pac_mans:
         try:
             installed_package_count = subprocess.check_output(pac.split()).decode().split('\n')
-            package_manager = pac.split()[0]
-            break
+            package_managers.append((pac.split()[0], len(installed_package_count)))
+        # if command failed
         except FileNotFoundError:
-            # if command fails
             pass
-    # returning the package count
-    return len(installed_package_count), package_manager if package_manager else None
+        # if any package managers found
+    if package_managers:
+        for pcm in package_managers:
+            # the the first and second elements of the tuple and place it inside a string
+            packager += f'{pcm[0]} ({pcm[1]}), '
+        # packager = package without the last 2 characters
+        packager = packager[:-2]
+        # return the package manager string
+        return packager
+    # if no package manager found, return "none"
+    return None
 
 
 # calculate percentage
@@ -82,15 +92,15 @@ colour_palette = {
 class Art:
     @classmethod
     def art(cls, user: str, host: str, os: str,
-            kernels: str, uptime: str, packages: int,
-            pacman: str, total_root: int, used_root: int,
-            total_ram: float, used_ram: float, art: list):
+            kernels: str, uptime: str, package: (str, None),
+            total_root: int, used_root: int, total_ram: float,
+            used_ram: float, art: list):
         art = f'''
 {art[0]}{user}{colour_palette["user_at"]}@{colour_palette["normal_text"]}{host}
 {colour_palette["logo"]}{art[1]}{colour_palette["main_text"]}os            | {colour_palette["normal_text"]}{os}
 {colour_palette["logo"]}{art[2]}{colour_palette["main_text"]}kernel        | {colour_palette["normal_text"]}{kernels}
 {colour_palette["logo"]}{art[3]}{colour_palette["main_text"]}uptime        | {colour_palette["normal_text"]}{uptime}
-{colour_palette["logo"]}{art[4]}{colour_palette["main_text"]}packages      | {colour_palette["normal_text"]}{packages} ({pacman})
+{colour_palette["logo"]}{art[4]}{colour_palette["main_text"]}packages      | {colour_palette["normal_text"]}{package}
 {colour_palette["logo"]}{art[5]}{colour_palette["main_text"]}/ usage       | {colour_palette["normal_text"]}{used_root}/{total_root}GB [{calc_percentage(used_root, total_root)}%]
 {colour_palette["logo"]}{art[6]}{colour_palette["main_text"]}memory        | {colour_palette["normal_text"]}{used_ram}/{total_ram}MB [{calc_percentage(used_ram, total_ram)}%]
 '''
@@ -140,22 +150,22 @@ disk_used = shutil.disk_usage('/').used >> 30
 # :) = tested, ? = not tested
 art_list = {
     # arco :)
-    "arcolinux": make_art(f'''                 ]
-      __        ]
-     ----       ]
-    ------      ]
-   --------     ]
-  ----  {colour_palette["white_text"]}==={colour_palette["logo"]}-    ]
- ---     {colour_palette["white_text"]}=={colour_palette["logo"]}--   ]'''[1:], ']'),
+    "arcolinux": make_art(f'''                ]
+      __       ]
+     ----      ]
+    ------     ]
+   --------    ]
+  ----  {colour_palette["white_text"]}==={colour_palette["logo"]}-   ]
+ ---     {colour_palette["white_text"]}=={colour_palette["logo"]}--  ]'''[1:], ']'),
 
     # arch :)
-    "arch linux": make_art(f'''                ]
-      {colour_palette["main_text"]},         ]
-     {colour_palette["main_text"]},,,        ]
-    {colour_palette["main_text"]},,,{colour_palette["logo"]},,       ]
-   ,,,,,,,      ]
-  .,*   *,.     ]
- .,       ,.    ]''', ']'),
+    "arch linux": make_art(f'''               ]
+      {colour_palette["main_text"]},        ]
+     {colour_palette["main_text"]},,,       ]
+    {colour_palette["main_text"]},,,{colour_palette["logo"]},,      ]
+   ,,,,,,,     ]
+  .,*   *,.    ]
+ .,       ,.   ]''', ']'),
 
     # alpine :)
     "alpine linux": make_art(f'''                               ]
@@ -176,31 +186,31 @@ art_list = {
  {colour_palette["logo"]}.,       ,.   ]''', ']'),
 
     # debian :)
-    "debian gnu/linux": make_art(f'''                   ]
-  {colour_palette["magenta_purple"]}/&&&&&*&\\        ]
- {colour_palette["magenta_purple"]},&   .-.  &'      ]
-  {colour_palette["magenta_purple"]}&. |     [       ]
-  {colour_palette["magenta_purple"]}&   .___=        ]
-  {colour_palette["magenta_purple"]}\\&               ]
-    {colour_palette["magenta_purple"]}\\*             ]''', ']'),
+    "debian gnu/linux": make_art(f'''                ]
+  {colour_palette["magenta_purple"]}/&&&&&*&\\     ]
+ {colour_palette["magenta_purple"]},&   .-.  &'   ]
+  {colour_palette["magenta_purple"]}&. |     [    ]
+  {colour_palette["magenta_purple"]}&   .___=     ]
+  {colour_palette["magenta_purple"]}\\&            ]
+    {colour_palette["magenta_purple"]}\\*          ]''', ']'),
 
     # endeavour :)
-    "endeavouros": make_art(f'''                  ]
-     {colour_palette["orange"]}/  \\\\        ]
-    {colour_palette["orange"]}/ {colour_palette["magenta"]}/``{colour_palette["magenta_purple"]}\\\\       ]
-   {colour_palette["orange"]}/ {colour_palette["magenta"]}/````{colour_palette["magenta_purple"]}\\\\     ] 
- {colour_palette["orange"]}/ {colour_palette["magenta"]}-`````_) {colour_palette["magenta_purple"]}\\     ]
- {colour_palette["orange"]}/{colour_palette["magenta"]}_-___`` {colour_palette["magenta_purple"]}__=     ]
-  {colour_palette["orange"]}/={colour_palette["magenta"]}====={colour_palette["magenta_purple"]}--       ]''', ']'),
+    "endeavouros": make_art(f'''                 ]
+     {colour_palette["orange"]}/  \\\\       ]
+    {colour_palette["orange"]}/ {colour_palette["magenta"]}/``{colour_palette["magenta_purple"]}\\\\      ]
+   {colour_palette["orange"]}/ {colour_palette["magenta"]}/````{colour_palette["magenta_purple"]}\\\\    ] 
+ {colour_palette["orange"]}/ {colour_palette["magenta"]}-`````_) {colour_palette["magenta_purple"]}\\    ]
+ {colour_palette["orange"]}/{colour_palette["magenta"]}_-___`` {colour_palette["magenta_purple"]}__=    ]
+  {colour_palette["orange"]}/={colour_palette["magenta"]}====={colour_palette["magenta_purple"]}--      ]''', ']'),
 
     # manjaro :)
-    "manjaro linux": make_art(f'''               ]
- {colour_palette["light_green"]}:::::: ::     ]
- {colour_palette["light_green"]}:: ;;; ::     ]
- {colour_palette["light_green"]}:: ;;; ::     ]
- {colour_palette["light_green"]}:: ;;; ::     ]
- {colour_palette["light_green"]}:: ;;; ::     ]
- {colour_palette["light_green"]}:: ;;; ::     ]''', ']'),
+    "manjaro linux": make_art(f'''              ]
+ {colour_palette["light_green"]}:::::: ::    ]
+ {colour_palette["light_green"]}:: ;;; ::    ]
+ {colour_palette["light_green"]}:: ;;; ::    ]
+ {colour_palette["light_green"]}:: ;;; ::    ]
+ {colour_palette["light_green"]}:: ;;; ::    ]
+ {colour_palette["light_green"]}:: ;;; ::    ]''', ']'),
 
     # elementary :)
     "elementary os": make_art(f'''                ]
@@ -212,42 +222,40 @@ art_list = {
    {colour_palette["light_blue"]}*&&&&*       ]''', ']'),
 
     # ubuntu :)
-    "ubuntu": make_art(f'''                  ]
-     {colour_palette["orange"]}( )          ]
- {colour_palette["orange"]}_/        \\      ]
-{colour_palette["orange"]}( )  /--\\         ]
- {colour_palette["orange"]}_   \\--/         ]
-  {colour_palette["orange"]}\\        /      ]
-     {colour_palette["orange"]}( )          ]''', ']'),
+    "ubuntu": make_art(f'''               ]
+     {colour_palette["orange"]}( )       ]
+ {colour_palette["orange"]}_/        \\   ]
+{colour_palette["orange"]}( )  /--\\      ]
+ {colour_palette["orange"]}_   \\--/      ]
+  {colour_palette["orange"]}\\        /   ]
+     {colour_palette["orange"]}( )       ]''', ']'),
 
     # gentoo :)
-    "gentoo": make_art(f'''                ]
- {colour_palette["magenta_purple"]}_-----__       ]
- {colour_palette["magenta_purple"]}(       \\\\     ]
- {colour_palette["magenta_purple"]}\\\\   0  \\\\     ]
-  {colour_palette["magenta_purple"]}\\\\     )      ]
- {colour_palette["magenta_purple"]}(     _/       ]
- {colour_palette["magenta_purple"]}\\\\____/        ]''', ']'),
+    "gentoo": make_art(f'''              ]
+ {colour_palette["magenta_purple"]}_-----__     ]
+ {colour_palette["magenta_purple"]}(       \\\\   ]
+ {colour_palette["magenta_purple"]}\\\\   0  \\\\   ]
+  {colour_palette["magenta_purple"]}\\\\     )    ]
+ {colour_palette["magenta_purple"]}(     _/     ]
+ {colour_palette["magenta_purple"]}\\\\____/      ]''', ']'),
 
     # linux lite ?
-    "linux lite": make_art(f'''              ]
-  {colour_palette["gold"]},           ]
- {colour_palette["gold"]}"\\",         ]
- {colour_palette["gold"]}"=\\=",       ]
-  {colour_palette["gold"]}"=\\=",      ]
-   {colour_palette["gold"]}"-\\-"      ]
-      {colour_palette["gold"]}\\       ]
-''', ']'),
+    "linux lite": make_art(f'''            ]
+  {colour_palette["gold"]},         ]
+ {colour_palette["gold"]}"\\",       ]
+ {colour_palette["gold"]}"=\\=",     ]
+  {colour_palette["gold"]}"=\\=",    ]
+   {colour_palette["gold"]}"-\\-"    ]
+      {colour_palette["gold"]}\\     ]''', ']'),
 
     # solaris ?
-    "solaris": make_art(f'''   ]                             ]
-     {colour_palette["gold"]}..`,,``..``.`..`           ]
-   {colour_palette["gold"]}`.`,.          ``..`         ]
-  {colour_palette["gold"]}.`.`               ``.`       ]
- {colour_palette["gold"]}..`.                 ``.       ]
- {colour_palette["gold"]}.`.`                  ``,`     ]
- {colour_palette["gold"]}`.`                   ``.`     ]
-''', ']'),
+    "solaris": make_art(f'''                               ]
+     {colour_palette["gold"]}..`,,``..``.`..`          ]
+   {colour_palette["gold"]}`.`,.          ``..`        ]
+  {colour_palette["gold"]}.`.`               ``.`      ]
+ {colour_palette["gold"]}..`.                 ``.      ]
+ {colour_palette["gold"]}.`.`                  ``,`    ]
+ {colour_palette["gold"]}`.`                   ``.`    ]''', ']'),
 
     # slackware :)
     "slackware": make_art(f'''                    ]
@@ -256,8 +264,7 @@ art_list = {
  x   / __|    x     ]
  {colour_palette["main_text"]}x   \\__ \\    x     ]
    {colour_palette["main_text"]}x  |___/ x       ]
-      {colour_palette["main_text"]}x  x          ]
-''', ']'),
+      {colour_palette["main_text"]}x  x          ]''', ']'),
 
     # openSUSE :)
     "opensuse": make_art(f'''                     ]
@@ -285,55 +292,79 @@ art_list = {
  {colour_palette["light_blue"]}|_|      ]''', ']'),
 
     # macos :)
-    "darwin": make_art(f'''                       ]
-     {colour_palette["red"]}__ :'__           ]
-  {colour_palette["orange"]}.'`__`-'__``.        ]
- {colour_palette["gold"]}:__________.-'        ]
- {colour_palette["main_text"]}:_________:           ]
-  {colour_palette["magenta_purple"]}:_________`-;        ]
-  {colour_palette["magenta"]}`.__.-.__.\'          ]''', ']'),
+    "darwin": make_art(f'''                   ]
+     {colour_palette["red"]}__ :'__       ]
+  {colour_palette["orange"]}.'`__`-'__``.    ]
+ {colour_palette["gold"]}:__________.-'    ]
+ {colour_palette["main_text"]}:_________:       ]
+  {colour_palette["magenta_purple"]}:_________`-;    ]
+  {colour_palette["magenta"]}`.__.-.__.\'      ]''', ']'),
 
     # pop os :)
-    "pop!_os": make_art(f'''                    ]
-  {colour_palette["light_blue"]}_ __   ._.        ]
- {colour_palette["light_blue"]}| '_ \\  | |        ]
- {colour_palette["light_blue"]}| |_) | | |        ]
- {colour_palette["light_blue"]}| .__/   \\|        ]
- {colour_palette["light_blue"]}| |      __        ]
- {colour_palette["light_blue"]}|_|      \\/        ]''', ']'),
+    "pop!_os": make_art(f'''                 ]
+  {colour_palette["light_blue"]}_ __   ._.     ]
+ {colour_palette["light_blue"]}| '_ \\  | |     ]
+ {colour_palette["light_blue"]}| |_) | | |     ]
+ {colour_palette["light_blue"]}| .__/   \\|     ]
+ {colour_palette["light_blue"]}| |      __     ]
+ {colour_palette["light_blue"]}|_|      \\/     ]''', ']'),
 
     # void :)
-    "void": make_art(f'''                    ]
-  {colour_palette["green"]}_ {colour_palette["light_green"]}\\\\______        ]
- {colour_palette["green"]}| \\  {colour_palette["light_green"]}___  \\\\       ]
- {colour_palette["green"]}|   {colour_palette["light_green"]}/   \\ |        ]
- {colour_palette["green"]}|   {colour_palette["light_green"]}\\___/ |        ]
- {colour_palette["green"]}|  {colour_palette["light_green"]}\\______ \\\\      ]
-  {colour_palette["green"]}-_______\\         ]''', ']'),
+    "void": make_art(f'''                 ]
+  {colour_palette["green"]}_ {colour_palette["light_green"]}\\\\______     ]
+ {colour_palette["green"]}| \\  {colour_palette["light_green"]}___  \\\\    ]
+ {colour_palette["green"]}|   {colour_palette["light_green"]}/   \\ |     ]
+ {colour_palette["green"]}|   {colour_palette["light_green"]}\\___/ |     ]
+ {colour_palette["green"]}|  {colour_palette["light_green"]}\\______ \\\\   ]
+  {colour_palette["green"]}-_______\\      ]''', ']'),
 
     # mageia :)
-    "mageia": make_art(f'''                 ]
-    {colour_palette["white_text"]}* .` `       ]
-  {colour_palette["white_text"]}. . ` .        ]
- {colour_palette["white_text"]}|⎻____⎻|        ]
-{colour_palette["white_text"]}|        |       ]
- {colour_palette["white_text"]}\\      /        ]
-  {colour_palette["white_text"]}⎻⎻⎻⎻⎻⎻         ]''', ']'),
+    "mageia": make_art(f'''             ]
+    {colour_palette["white_text"]}* .` `   ]
+  {colour_palette["white_text"]}. . ` .    ]
+ {colour_palette["white_text"]}|⎻____⎻|    ]
+{colour_palette["white_text"]}|        |   ]
+ {colour_palette["white_text"]}\\      /    ]
+  {colour_palette["white_text"]}⎻⎻⎻⎻⎻⎻     ]''', ']'),
+
+    # zorin :)
+    "zorin os": make_art(f'''                   ]
+    {colour_palette["light_blue"]},&&&&&&&,      ]
+   {colour_palette["light_blue"]}/         \\     ]
+ {colour_palette["light_blue"]}&&&&&&&**  .&&&   ]
+  {colour_palette["light_blue"]}&&*\'\'   \'***&    ]
+   {colour_palette["light_blue"]}\\         /     ]
+    {colour_palette["light_blue"]}\'&&&&&&&\'      ]''', ']'),
+
+    # mint :)
+    "linux mint": make_art(f'''               ]
+ {colour_palette["light_green"]}||            ]
+ {colour_palette["light_green"]}||            ]
+ {colour_palette["light_green"]}||/⎻⎻||⎻⎻\\    ]
+ {colour_palette["light_green"]}|||  ||  |    ]
+ {colour_palette["light_green"]}|||  ||  |    ]
+ {colour_palette["light_green"]}\\\\_______/    ]''', ']'),
 
     # default :)
-    "linux": make_art(f'''             ]
-   {colour_palette["white_text"]}.~.       ]
-   {colour_palette["white_text"]}/{colour_palette["gold"]}V{colour_palette["white_text"]}\\       ]
-  {colour_palette["white_text"]}// \\\\      ]
- {colour_palette["white_text"]}/(   )\\     ]
-  {colour_palette["gold"]}^`~'^      ]
-  {colour_palette["light_blue"]}LINUX      ]''', ']')
+    "linux": make_art(f'''           ]
+   {colour_palette["white_text"]}.~.     ]
+   {colour_palette["white_text"]}/{colour_palette["gold"]}V{colour_palette["white_text"]}\\     ]
+  {colour_palette["white_text"]}// \\\\    ]
+ {colour_palette["white_text"]}/(   )\\   ]
+  {colour_palette["gold"]}^`~'^    ]
+  {colour_palette["light_blue"]}         ]''', ']')
 }
 
+# terminal commands (i'd make another file and imported it using a dictionary
+# and functions, but
+# i don't want to make any other files just in case
 try:
+    # if xxx == 'xxx' is checking if something is equal to something
+    # sys.argv is a list of terminal argumemts
     if sys.argv[1] == '-c':
         print('''Art By: https://roly.neocities.org/
 Coded By: https://acactusinpain.neocities.org/''')
+        # sys.exit() exits the program
         sys.exit()
     elif sys.argv[1] == '-d':
         print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used,
@@ -350,13 +381,14 @@ Coded By: https://acactusinpain.neocities.org/''')
 -D - display available distro names
 -h - display this page''')
         sys.exit()
+# if either the distro doesn't exist in the list or too little argumets: do nothing
 except (IndexError, KeyError):
     pass
 
 try:
-    print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used, ram_total,
+    print(Art.art(username, hostname, distro, kernel, system_uptime, get_packages(), disk_total, disk_used, ram_total,
                   ram_used, art_list[distro.lower()]))
 # if the distro doesn't exist use the default linux logo
 except KeyError:
-    print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used, ram_total,
+    print(Art.art(username, hostname, distro, kernel, system_uptime, get_packages(), disk_total, disk_used, ram_total,
                   ram_used, art_list["linux"]))
