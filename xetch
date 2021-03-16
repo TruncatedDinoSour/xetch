@@ -32,7 +32,8 @@ def get_packages():
                 "brew list",
                 "flatpak list",
                 "snap list",
-                "equery list \"*\""]
+                "equery list \"*\"",
+                "xbps-query -l"]
     # default value is empty
     installed_package_count = []
     # setting the default value for the package manager
