@@ -4,18 +4,11 @@
 # ~*~ art by https://roly.neocities.org/ ~*~
 # ~*~ code by https://acactusinpain.neocities.org/ ~*~
 
-import re
-import subprocess
-import getpass
-import socket
-import psutil
-import time
-import shutil
-import sys
+import re, subprocess, getpass, socket, psutil, time, shutil, sys
 from colorama import Fore, Style
 
-__date__ = "2021/03/16"
-__author__ = "B00bleaTea"
+__date__    = "2021/03/16"
+__author__  = "B00bleaTea"
 __credits__ = ["https://roly.neocities.org/"]
 
 
