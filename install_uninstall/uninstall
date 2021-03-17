@@ -1,6 +1,6 @@
 #! /bin/sh
 
-echo 'Press <ENTER> to uninstall xetch...'
+echo 'press <ENTER> to uninstall xetch...'
 read -p "" x
 
 sudo rm -vf /usr/bin/xetch
