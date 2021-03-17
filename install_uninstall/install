@@ -5,9 +5,9 @@ read -p "" x
 
 sudo chmod +x ../xetch
 
-python3 -m pip install -r ../requirements.txt
-sudo cp ../xetch /usr/bin/xetch
+python3 -m pip install -r ../requirements.txt || pip3 -m pip install -r ../requirements.txt || pip install -r ../requirements.txt
 
+sudo cp ../xetch /usr/bin/xetch
 sudo chmod +x /usr/bin/xetch
 
 echo
