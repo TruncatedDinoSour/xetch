@@ -47,3 +47,5 @@ $ sudo nano /usr/bin/xetch
 
 ### Credits
 #### [Roly - Art](https://roly.neocities.org/)
+#### [Robert - code fixes & active commits](https://github.com/robtech21/)
+#### [Tempora - support for portage](https://github.com/tempora/)
