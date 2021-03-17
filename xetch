@@ -41,13 +41,11 @@ def get_packages():
     package_managers = []
     # default string
     packager = ''
-    # don't filter the -, ("xxxx", "xxxx", ...)
-    unfiltered = ("apt-get list",)
     # looping and trying
     for pac in pac_mans:
         try:
             installed_package_count = subprocess.check_output(pac.split()).decode().split('\n')
-            package_managers.append((pac.replace('-', ' ').split()[0] if pac not in unfiltered else pac.split()[0],
+            package_managers.append((pac.replace('-', ' ').split()[0],
                                      len(installed_package_count)))
         # if command failed
         except FileNotFoundError:
