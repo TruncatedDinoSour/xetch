@@ -23,12 +23,12 @@ def get_packages():
     # defining the ways you can list installed packages
     pac_mans = ["apk info",
                 "pacman -Q",
-                "apt list --installed",
-                "apt-get list --installed",
+                "apt list",
+                "apt-get list",
                 "dpkg -l",
-                "yum list installed",
-                "dnf list installed",
-                "zypper se --installed-only",
+                "yum list",
+                "dnf list",
+                "zypper se",
                 "rpm -qa",
                 "brew list",
                 "flatpak list",
@@ -42,7 +42,7 @@ def get_packages():
     # default string
     packager = ''
     # don't filter the -, ("xxxx", "xxxx", ...)
-    unfiltered = ("apt-get list --installed",)
+    unfiltered = ("apt-get list",)
     # looping and trying
     for pac in pac_mans:
         try:
