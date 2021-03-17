@@ -13,7 +13,7 @@
 
 ### sha512 checksum (shasum -a 512) of /xetch: 
 ```shell
-04d5d9c2e01bc0e0e5190b351528a3af94e107cde31bb344f7f5ea75406c41134ff584a44b4949c650dfef5013a09ccc96363f151103235e4f8c521c4aa398e1
+ab615d9b97c3e65ce397d5ae4e79eab9afe8292c7b93d9e4823fcbdeae39a32e55af77b28bdc60b0c8ace27766bc30d57aff102d03fa0cbd06a944e69c7f8baa
 ```
 
 ### how to check a sha512 checksum of a file
