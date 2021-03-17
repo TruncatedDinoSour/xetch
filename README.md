@@ -1,7 +1,7 @@
 ### xetch
 #### a simple GNU/linux tool for fetching sysinfo written in python
 ***
-```shell
+```
                ari@ari-arch
       ,        os            | Arch Linux
      ,,,       kernel        | 5.10.23-1-lts, 5.11.6-arch1-1
