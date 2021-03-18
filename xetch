@@ -1,4 +1,4 @@
-#! /bin/python3
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # ~*~ art by https://roly.neocities.org/ ~*~
@@ -134,7 +134,7 @@ except FileNotFoundError:
 # finding all specs of the system
 username = getpass.getuser()
 hostname = socket.gethostname()
-kernel = subprocess.check_output(['ls', '/lib/modules/']).decode().replace('\n', ', ')[:-2]
+kernel = subprocess.check_output(['uname', '-r']).decode().replace('\n', ', ')[:-2]
 system_uptime = time.gmtime(time.time() - psutil.boot_time())
 system_uptime = f"{system_uptime.tm_hour}h {system_uptime.tm_min}m {system_uptime.tm_sec}s"
 pacs = get_packages()
