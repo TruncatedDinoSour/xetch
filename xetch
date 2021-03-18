@@ -60,12 +60,15 @@ def get_packages():
         # return the package manager string
         return packager, pac_cnt
     # if no package manager found, return "none"
-    return None
+    return None, None
 
 
 # calculate percentage
 def calc_percentage(used: (int, float), total: (int, float)):
-    return round((used * 100) / total)
+    try:
+        return round((used * 100) / total)
+    except (ZeroDivisionError, PermissionError):
+        return 0
 
 
 # prepare art for use in the Art.art function
