@@ -137,7 +137,7 @@ except FileNotFoundError:
     # if that file doesn't exist
     except FileNotFoundError:
         # find the type of their os
-        distro = subprocess.check_output(['uname', '-s']).decode()
+        distro = subprocess.check_output(['uname', '-s']).decode().strip()
 
 # finding all specs of the system
 username = getpass.getuser()
