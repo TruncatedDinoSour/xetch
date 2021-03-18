@@ -7,9 +7,13 @@
 import re, subprocess, getpass, socket, psutil, time, shutil, sys
 from colorama import Fore, Style
 
-__date__    = "2021/03/16"
-__author__  = "B00bleaTea"
-__credits__ = ["https://roly.neocities.org/"]
+
+__date__        = "2021/03/14"
+__last_update__ = "2021/04/18"
+__author__      = "B00bleaTea"
+__credits__     = ["https://roly.neocities.org/",
+                   "https://github.com/robtech21/",
+                   "https://github.com/tempora/"]
 
 
 def get_packages():
@@ -134,7 +138,7 @@ except FileNotFoundError:
 # finding all specs of the system
 username = getpass.getuser()
 hostname = socket.gethostname()
-kernel = subprocess.check_output(['uname', '-r']).decode().replace('\n', ', ')[:-2]
+kernel = subprocess.check_output(['uname', '-r']).decode().strip()
 system_uptime = time.gmtime(time.time() - psutil.boot_time())
 system_uptime = f"{system_uptime.tm_hour}h {system_uptime.tm_min}m {system_uptime.tm_sec}s"
 pacs = get_packages()
@@ -222,12 +226,12 @@ art_list = {
 
     # ubuntu :)
     "ubuntu": make_art(f'''               ]
-     {colour_palette["orange"]}( )       ]
- {colour_palette["orange"]}_/        \\   ]
-{colour_palette["orange"]}( )  /--\\      ]
- {colour_palette["orange"]}_   \\--/      ]
-  {colour_palette["orange"]}\\        /   ]
-     {colour_palette["orange"]}( )       ]''', ']'),
+        {colour_palette["orange"]}_      ]
+    {colour_palette["orange"]}---(_)     ]
+ {colour_palette["orange"]}_/  ---  \\\\   ]
+{colour_palette["orange"]}(_) |   |      ]
+ {colour_palette["orange"]}\\\\  --- _/    ]
+   {colour_palette["orange"]}---(_)      ]''', ']'),
 
     # gentoo :)
     "gentoo": make_art(f'''              ]
@@ -366,9 +370,9 @@ Coded By: https://acactusinpain.neocities.org/''')
         # sys.exit() exits the program
         sys.exit()
     elif sys.argv[1] == '-d':
-        print(
-            Art.art(username, hostname, distro, kernel, system_uptime, get_packages(), disk_total, disk_used, ram_total,
-                    ram_used, art_list[sys.argv[2]]))
+        print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used,
+                      ram_total,
+                      ram_used, art_list[sys.argv[2]]))
         sys.exit()
     elif sys.argv[1] == '-D':
         for key in art_list:
