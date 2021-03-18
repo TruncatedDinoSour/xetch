@@ -7,20 +7,20 @@
 import re, subprocess, getpass, socket, psutil, time, shutil, sys
 from colorama import Fore, Style
 
-
-__date__        = "2021/03/14"
-__last_update__ = "2021/04/18"
-__author__      = "B00bleaTea"
-__credits__     = ["https://roly.neocities.org/",
-                   "https://github.com/robtech21/",
-                   "https://github.com/tempora/"]
+## info ##
+__date__    = "2021/03/14"
+__update__  = "2021/04/18"
+__author__  = "B00bleaTea"
+__credits__ = ["https://roly.neocities.org/",
+               "https://github.com/robtech21/",
+               "https://github.com/tempora/"]
+########
 
 
 def get_packages():
     # defining the ways you can list installed packages
     pac_mans = ["apk info",
                 "pacman -Q",
-                "apt list --installed",
                 "dpkg -l",
                 "yum list installed",
                 "dnf list installed",
@@ -42,7 +42,7 @@ def get_packages():
     # looping and trying
     for pac in pac_mans:
         try:
-            installed_package_count = subprocess.check_output(pac.split()).decode().split('\n')
+            installed_package_count = subprocess.check_output(pac.split(), shell=False).decode().split('\n')
             package_managers.append((pac.replace('-', ' ').split()[0],
                                      len(installed_package_count)))
         # if command failed
