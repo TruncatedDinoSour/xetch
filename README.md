@@ -43,7 +43,7 @@ $ ./uninstall
 $ sudo nano /usr/bin/xetch
 ```
 - edit the ASCII art at the end of the file
-- or edit the colour palate
+- and/or edit the colour palate
 
 
 ### Credits
