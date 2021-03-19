@@ -20,3 +20,10 @@ void -
 mint -
 zorin -
 linux -
+android -
+archman -
+centOS -
+endless os -
+OpenBSD -
+FreeBSD -
+tinycore -
