@@ -41,7 +41,9 @@ def get_packages():
                 "eopkg list-installed",
                 "scratchpkg listinst",
                 "nix-env -qa --installed \"*\"",
-                "swupd bundle-list --status"]
+                "swupd bundle-list --status",
+                "omf list",
+                "omz list"]
     # default value is empty
     package_managers = []
     # default string
