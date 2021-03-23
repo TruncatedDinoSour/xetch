@@ -5,24 +5,26 @@
 # ~*~ code by     : https://acactusinpain.neocities.org/ ~*~
 # ~*~ github repo : https://github.com/B00bleaTea/xetch ~*~
 
-import re, subprocess, getpass, socket, psutil, time, shutil, sys
+import re, subprocess, getpass, socket, psutil, time, shutil, sys, functools
 from colorama import Fore, Style
 
 # variables, functions and constants
 
 ## info ##
-__date__    = "2021/03/14"
-__update__  = "2021/03/20"
-__author__  = "B00bleaTea"
+__date__ = "2021/03/14"
+__update__ = "2021/03/23"
+__author__ = "B00bleaTea"
 __credits__ = ["https://roly.neocities.org/",
                "https://github.com/robtech21/",
                "https://github.com/tempora/"]
+
+
 ########
 
 
+@functools.cache
 def get_packages():
     # defining the ways you can list installed packages
-    # xx || yy = do xx, if xx fails do yy
     pac_mans = ["apk info",
                 "pacman -Q",
                 "dpkg -l",
@@ -42,8 +44,7 @@ def get_packages():
                 "scratchpkg listinst",
                 "nix-env -qa --installed \"*\"",
                 "swupd bundle-list --status",
-                "omf list",
-                "omz list"]
+                "pip3 list"]
     # default value is empty
     package_managers = []
     # default string
@@ -113,13 +114,11 @@ COLOUR_PALATE = {
 try:
     username = getpass.getuser()
     hostname = socket.gethostname()
-except (PermissionError, Exception) as e:
-    print(f'{COLOUR_PALATE["red"]}[DEBUG] user error - {e}{COLOUR_PALATE["reset_all"]}')
+except PermissionError as e:
     username, hostname = (None, None)
 try:
     kernel = subprocess.check_output(['uname', '-r']).decode().strip()
 except (FileNotFoundError, PermissionError) as e:
-    print(f'{COLOUR_PALATE["red"]}[DEBUG] kernel error - {e}{COLOUR_PALATE["reset_all"]}')
     kernel = None
 system_uptime = time.gmtime(time.time() - psutil.boot_time())
 system_uptime = f"{system_uptime.tm_hour}h {system_uptime.tm_min}m {system_uptime.tm_sec}s"
@@ -130,17 +129,12 @@ try:
     ram_total = psutil.virtual_memory().total >> 20
     ram_used = psutil.virtual_memory().used >> 20
 except (PermissionError, FileNotFoundError) as e:
-    print(f'{COLOUR_PALATE["red"]}[DEBUG] ram error - {e}{COLOUR_PALATE["reset_all"]}')
     ram_used, ram_total = (0, 0)
 try:
     disk_total = shutil.disk_usage('/').total >> 30
     disk_used = shutil.disk_usage('/').used >> 30
 except (PermissionError, FileNotFoundError) as e:
-    print(f'{COLOUR_PALATE["red"]}[DEBUG] disk error - {e}{COLOUR_PALATE["reset_all"]}')
     disk_total, disk_used = (0, 0)
-
-# the path to the os-release file
-os_release_file = "/etc/os-release"
 
 
 class Art:
@@ -150,47 +144,41 @@ class Art:
             package: STR_NONE, package_count: INT_NONE, total_root: INT_NONE,
             used_root: INT_NONE, total_ram: FLOAT_INT_NONE,
             used_ram: FLOAT_INT_NONE, art: list[str]):
-        art = f'''
-{art[0]}{user}{COLOUR_PALATE["user_at"]}@{COLOUR_PALATE["normal_text"]}{host}
+        art = f'''{art[0]}{user}{COLOUR_PALATE["user_at"]}@{COLOUR_PALATE["normal_text"]}{host}
 {COLOUR_PALATE["logo"]}{art[1]}{COLOUR_PALATE["main_text"]}os       | {COLOUR_PALATE["normal_text"]}{os}
 {COLOUR_PALATE["logo"]}{art[2]}{COLOUR_PALATE["main_text"]}kernel   | {COLOUR_PALATE["normal_text"]}{kernels}
 {COLOUR_PALATE["logo"]}{art[3]}{COLOUR_PALATE["main_text"]}uptime   | {COLOUR_PALATE["normal_text"]}{uptime}
 {COLOUR_PALATE["logo"]}{art[4]}{COLOUR_PALATE["main_text"]}packages | {COLOUR_PALATE["normal_text"]}{package} [{package_count}]
 {COLOUR_PALATE["logo"]}{art[5]}{COLOUR_PALATE["main_text"]}/ usage  | {COLOUR_PALATE["normal_text"]}{used_root}/{total_root}GB [{calc_percentage(used_root, total_root)}%]
-{COLOUR_PALATE["logo"]}{art[6]}{COLOUR_PALATE["main_text"]}memory   | {COLOUR_PALATE["normal_text"]}{used_ram}/{total_ram}MB [{calc_percentage(used_ram, total_ram)}%]
-'''
-        return art[art.find('\n') + 1:art.rfind('\n')]
+{COLOUR_PALATE["logo"]}{art[6]}{COLOUR_PALATE["main_text"]}memory   | {COLOUR_PALATE["normal_text"]}{used_ram}/{total_ram}MB [{calc_percentage(used_ram, total_ram)}%]'''
+        return art
 
 
+# the path to the os-release file
+os_release_file = "/etc/os-release"
+# the pattern to find the distro name
+pattern = re.compile(r"^[nN][aA][mM][eE]=.+")
 try:
     with open(os_release_file, 'r') as f:
-        # the pattern to find the distro name
-        pattern = re.compile(r"^[nN][aA][mM][eE]=.+")
         distro = f.read()
-        # finding NAME= and removing it, leaving up with the distro only
-        distro = pattern.search(distro).group()[5:].replace('"', '')
-# in file doesn't exist
+# if file doesn't exist
 except FileNotFoundError:
     try:
         # giving os_release_file a new value
         os_release_file = '/usr/lib/os-release'
         with open(os_release_file, 'r') as f:
-            # the pattern to find the distro name
-            pattern = re.compile(r"^[nN][aA][mM][eE]=.+")
             distro = f.read()
-            # finding NAME= and removing it, leaving up with the distro only
-            distro = pattern.search(distro).group()[5:].replace('"', '')
     # if that file doesn't exist
     except FileNotFoundError:
         # find the type of their os
         try:
-            distro = subprocess.check_output(['uname', '-s']).decode().strip()
+            distro = f"NAME={subprocess.check_output(['uname', '-s']).decode().strip()}"
         except (FileNotFoundError, subprocess.CalledProcessError):
-            distro = 'unknown'
-
+            distro = 'NAME=unknown'
+distro = pattern.search(distro).group()[5:].replace('"', '')
 
 # ] is just a way of showing the boundaries
-# :) = tested, ? = not tested
+# :) = tested, ? = not (completely) tested
 art_list = {
     # default :)
     "linux": make_art(f'''          ]
@@ -202,13 +190,13 @@ art_list = {
  {COLOUR_PALATE["light_blue"]}         ]''', ']'),
 
     # arco :)
-    "arcolinux": make_art(f'''                ]
+    "arcolinux": make_art(f'''               ]
       __       ]
      ----      ]
     ------     ]
    --------    ]
   ----  {COLOUR_PALATE["white_text"]}==={COLOUR_PALATE["logo"]}-   ]
- ---     {COLOUR_PALATE["white_text"]}=={COLOUR_PALATE["logo"]}--  ]'''[1:], ']'),
+ ---     {COLOUR_PALATE["white_text"]}=={COLOUR_PALATE["logo"]}--  ]''', ']'),
 
     # arch :)
     "arch linux": make_art(f'''               ]
@@ -501,10 +489,11 @@ Coded By: https://acactusinpain.neocities.org/''')
 except (IndexError, KeyError):
     pass
 
+art = art_list['linux']
 try:
-    print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used, ram_total,
-                  ram_used, art_list[distro.lower()]))
+    art = art_list[distro.lower()]
 # if the distro doesn't exist use the default linux logo
-except KeyError:
-    print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used, ram_total,
-                  ram_used, art_list["linux"]))
+except Exception as e:
+    pass
+print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used, ram_total,
+              ram_used, art))
