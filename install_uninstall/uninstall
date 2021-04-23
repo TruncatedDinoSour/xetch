@@ -6,4 +6,4 @@ read -p "" x
 sudo rm -vf /usr/bin/xetch
 
 echo
-echo "We'll miss you"
+echo "We'll miss you D:"

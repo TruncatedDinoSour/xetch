@@ -5,7 +5,7 @@
 # ~*~ code by     : https://acactusinpain.neocities.org/ ~*~
 # ~*~ github repo : https://github.com/B00bleaTea/xetch ~*~
 
-import re, subprocess, getpass, socket, psutil, time, shutil, sys, functools
+import re, subprocess, getpass, socket, psutil, time, shutil, sys, functools, os
 from colorama import Fore, Style
 
 # variables, functions and constants
@@ -114,8 +114,9 @@ COLOUR_PALATE = {
 try:
     username = getpass.getuser()
     hostname = socket.gethostname()
+    terminal = os.getenv("TERM")
 except PermissionError as e:
-    username, hostname = (None, None)
+    username, hostname, terminal = (None, None,None)
 try:
     kernel = subprocess.check_output(['uname', '-r']).decode().strip()
 except (FileNotFoundError, PermissionError) as e:
@@ -143,14 +144,16 @@ class Art:
             os: STR_NONE, kernels: STR_NONE, uptime: STR_NONE,
             package: STR_NONE, package_count: INT_NONE, total_root: INT_NONE,
             used_root: INT_NONE, total_ram: FLOAT_INT_NONE,
-            used_ram: FLOAT_INT_NONE, art: list[str]):
+            used_ram: FLOAT_INT_NONE, terminal: STR_NONE,  art: list[str]):
         art = f'''{art[0]}{user}{COLOUR_PALATE["user_at"]}@{COLOUR_PALATE["normal_text"]}{host}
 {COLOUR_PALATE["logo"]}{art[1]}{COLOUR_PALATE["main_text"]}os       | {COLOUR_PALATE["normal_text"]}{os}
 {COLOUR_PALATE["logo"]}{art[2]}{COLOUR_PALATE["main_text"]}kernel   | {COLOUR_PALATE["normal_text"]}{kernels}
 {COLOUR_PALATE["logo"]}{art[3]}{COLOUR_PALATE["main_text"]}uptime   | {COLOUR_PALATE["normal_text"]}{uptime}
 {COLOUR_PALATE["logo"]}{art[4]}{COLOUR_PALATE["main_text"]}packages | {COLOUR_PALATE["normal_text"]}{package} [{package_count}]
-{COLOUR_PALATE["logo"]}{art[5]}{COLOUR_PALATE["main_text"]}/ usage  | {COLOUR_PALATE["normal_text"]}{used_root}/{total_root}GB [{calc_percentage(used_root, total_root)}%]
-{COLOUR_PALATE["logo"]}{art[6]}{COLOUR_PALATE["main_text"]}memory   | {COLOUR_PALATE["normal_text"]}{used_ram}/{total_ram}MB [{calc_percentage(used_ram, total_ram)}%]'''
+{COLOUR_PALATE["logo"]}{art[5]}{COLOUR_PALATE["main_text"]}disk     | {COLOUR_PALATE["normal_text"]}{used_root}/{total_root}GB [{calc_percentage(used_root, total_root)}%]
+{COLOUR_PALATE["logo"]}{art[6]}{COLOUR_PALATE["main_text"]}ram usage| {COLOUR_PALATE["normal_text"]}{used_ram}/{total_ram}MB [{calc_percentage(used_ram, total_ram)}%]
+{COLOUR_PALATE["logo"]}{art[6]}{COLOUR_PALATE["main_text"]}terminal | {COLOUR_PALATE["normal_text"]}{terminal}'''
+
         return art
 
 
@@ -245,13 +248,12 @@ art_list = {
 
     # manjaro :)
     "manjaro linux": make_art(f'''              ]
- {COLOUR_PALATE["light_green"]}:::::: ::    ]
- {COLOUR_PALATE["light_green"]}:: ;;; ::    ]
- {COLOUR_PALATE["light_green"]}:: ;;; ::    ]
- {COLOUR_PALATE["light_green"]}:: ;;; ::    ]
- {COLOUR_PALATE["light_green"]}:: ;;; ::    ]
- {COLOUR_PALATE["light_green"]}:: ;;; ::    ]''', ']'),
-
+ {COLOUR_PALATE["light_green"]}||||||||| ||||    ]
+ {COLOUR_PALATE["light_green"]}||||||||| ||||    ]
+ {COLOUR_PALATE["light_green"]}||||      ||||    ]
+ {COLOUR_PALATE["light_green"]}|||| |||| ||||    ]
+ {COLOUR_PALATE["light_green"]}|||| |||| ||||    ]
+ {COLOUR_PALATE["light_green"]}|||| |||| ||||    ]''', ']'),
     # elementary :)
     "elementary os": make_art(f'''                ]
    {COLOUR_PALATE["light_blue"]}a&&&&a       ]
@@ -496,4 +498,4 @@ try:
 except Exception as e:
     pass
 print(Art.art(username, hostname, distro, kernel, system_uptime, pacs[0], pacs[1], disk_total, disk_used, ram_total,
-              ram_used, art))
+              ram_used, terminal, art))
