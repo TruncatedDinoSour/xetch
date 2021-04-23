@@ -11,4 +11,4 @@ sudo cp ../xetch /usr/bin/xetch
 sudo chmod +x /usr/bin/xetch
 
 echo
-echo 'thanks for installing xetch'
+echo 'thanks for installing xetch :D'
