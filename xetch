@@ -55,7 +55,8 @@ def get_packages():
         try:
             installed_package_count = subprocess.check_output(pac.split(), shell=False).decode().split('\n')
             package_managers.append((pac.replace('-', ' ').split()[0],
-                                     len(installed_package_count) - 1)) # the package managers seem to be addding a " " at the end of the list
+                                     len(installed_package_count) - 1 if installed_package_count else None))
+                                     # the package managers seem to be addding a " " at the end of the list
         # if command failed
         except (FileNotFoundError, subprocess.CalledProcessError):
             pass
