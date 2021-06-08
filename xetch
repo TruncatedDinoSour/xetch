@@ -11,9 +11,9 @@ from colorama import Fore, Style
 # variables, functions and constants
 
 ## info ##
-__date__ = "2021/03/14"
-__update__ = "2021/03/23"
-__author__ = "B00bleaTea"
+__date__    = "2021/03/14"
+__update__  = "2021/06/08"
+__author__  = "B00bleaTea"
 __credits__ = ["https://roly.neocities.org/",
                "https://github.com/robtech21/",
                "https://github.com/tempora/",
@@ -43,8 +43,7 @@ def get_packages():
                 "eopkg list-installed",
                 "scratchpkg listinst",
                 "nix-env -qa --installed \"*\"",
-                "swupd bundle-list --status",
-                "pip3 list"]
+                "swupd bundle-list --status"]
     # default value is empty
     package_managers = []
     # default string
@@ -235,8 +234,8 @@ art_list = {
 
     # debian :)
     "debian gnu/linux": make_art(f'''                ]
-   {COLOUR_PALATE["magenta_purple"]}/&&&&&&&\\      ]
-  {COLOUR_PALATE["magenta_purple"]}/&&      *&\\     ]
+   {COLOUR_PALATE["magenta_purple"]}/&&&&&&&\\    ]
+  {COLOUR_PALATE["magenta_purple"]}/&&      *&\\  ]
  {COLOUR_PALATE["magenta_purple"]},&   .-.  &'   ]
   {COLOUR_PALATE["magenta_purple"]}&. |     [    ]
   {COLOUR_PALATE["magenta_purple"]}&   .___=     ]
@@ -270,17 +269,17 @@ art_list = {
  {COLOUR_PALATE["light_blue"]}&  &  &  &     ]
   {COLOUR_PALATE["light_blue"]}._ a'_ .      ]
    {COLOUR_PALATE["light_blue"]}*    *       ]
-    {COLOUR_PALATE["light_blue"]}****       ]''', ']'),
+    {COLOUR_PALATE["light_blue"]}****        ]''', ']'),
 
     # ubuntu :)
-    "ubuntu": make_art(f'''               ]
-        {COLOUR_PALATE["orange"]}_      ]
-    {COLOUR_PALATE["orange"]}---(_)     ]
- {COLOUR_PALATE["orange"]}_/  --- \\   ]
-{COLOUR_PALATE["orange"]}(_) /   \\ |    ]
-{COLOUR_PALATE["orange"]} |  \\   / /   ]
- {COLOUR_PALATE["orange"]}\\  --- _/    ]
-   {COLOUR_PALATE["orange"]}---(_)      ]''', ']'),
+    "ubuntu": make_art(f'''            ]
+        {COLOUR_PALATE["orange"]}_   ]
+    {COLOUR_PALATE["orange"]}---(_)  ]
+ {COLOUR_PALATE["orange"]}_/  --- \\  ]
+{COLOUR_PALATE["orange"]}(_) /   \\ | ]
+{COLOUR_PALATE["orange"]} |  \\   / / ]
+ {COLOUR_PALATE["orange"]}\\  --- _/  ]
+   {COLOUR_PALATE["orange"]}---(_)   ]''', ']'),
 
     # gentoo :)
     "gentoo": make_art(f'''              ]
@@ -299,13 +298,13 @@ art_list = {
  {COLOUR_PALATE["gold"]}"=\\=",     ]
   {COLOUR_PALATE["gold"]}"=\\=",    ]
    {COLOUR_PALATE["gold"]}"-\\-"    ]
-    {COLOUR_PALATE["gold"]}"-\\-"     ]
-       {COLOUR_PALATE["gold"]}\\     ]''', ']'),
+    {COLOUR_PALATE["gold"]}"-\\-"   ]
+       {COLOUR_PALATE["gold"]}\\    ]''', ']'),
 
     # solaris ?
     "solaris": make_art(f'''                               ]
-     {COLOUR_PALATE["gold"]}   ,,,..,,,.          ]
-     {COLOUR_PALATE["gold"]} ,,``..``.`..'          ]
+     {COLOUR_PALATE["gold"]}   ,,,..,,,.              ]
+     {COLOUR_PALATE["gold"]} ,,``..``.`..'            ]
    {COLOUR_PALATE["gold"]}`.`,.          ``..`        ]
   {COLOUR_PALATE["gold"]}.`.`               ``.`      ]
  {COLOUR_PALATE["gold"]}..`.                 ``.      ]
@@ -331,7 +330,7 @@ art_list = {
  {COLOUR_PALATE["light_green"]}              /     ]
  {COLOUR_PALATE["light_green"]}        ____/⎻      ]
  {COLOUR_PALATE["light_green"]}⎻⎻⎻⎻⎻⎻⎻             ]''', ']'),
-    "opensuse leap": make_art(f'''                     ]
+    "opensuse leap": make_art(f'''                    ]
 {COLOUR_PALATE["light_green"]}___|⎻⎻⎻⎻⎻⎻⎻\\_       ]
 {COLOUR_PALATE["light_green"]}     ---     \\_     ]
 {COLOUR_PALATE["light_green"]}     | *|     |     ]
@@ -447,7 +446,8 @@ art_list = {
  {COLOUR_PALATE["orange"]}-   __--__   -  ]
   {COLOUR_PALATE["orange"]}'--__--  --'   ]
     {COLOUR_PALATE["orange"]}_            ]
-   {COLOUR_PALATE["orange"]}-             ]''', ']'),
+   {COLOUR_PALATE["orange"]}-             ]
+ {COLOUR_PALATE["orange"]}-               ]''', ']'),
 
     # OpenBSD :)
     "openbsd": make_art(f'''                  ]
@@ -477,17 +477,7 @@ art_list = {
        {COLOUR_PALATE["white_text"]}d8      ]
         {COLOUR_PALATE["white_text"]}d8     ]
  {COLOUR_PALATE["white_text"]}\"8a,   ,a8\"   ]
-  {COLOUR_PALATE["white_text"]}`\"YbbdP"\'    ]''', ']'),
-
-    # damn small linux :)
-    "damn small linux": make_art(f'''          ]
-   {COLOUR_PALATE["white_text"]}.~.     ]
-   {COLOUR_PALATE["white_text"]}/{COLOUR_PALATE["gold"]}V{COLOUR_PALATE["white_text"]}\\     ]
-  {COLOUR_PALATE["white_text"]}// \\\\    ]
- {COLOUR_PALATE["white_text"]}//   \\\\    ]
- {COLOUR_PALATE["white_text"]}/(   )\\   ]
-  {COLOUR_PALATE["gold"]}^`~'^    ]
- {COLOUR_PALATE["light_blue"]}         ]''', ']')
+  {COLOUR_PALATE["white_text"]}`\"YbbdP"\'    ]''', ']')
 }
 
 # terminal commands (i'd make another file and imported it using a dictionary
