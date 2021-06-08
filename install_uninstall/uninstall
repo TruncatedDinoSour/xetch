@@ -3,7 +3,7 @@
 echo 'press <ENTER> to uninstall xetch...'
 read -p "" x
 
-sudo rm -vf /usr/bin/xetch
+sudo rm -vf /usr/bin/local/xetch
 
 echo
 echo "We'll miss you D:"
