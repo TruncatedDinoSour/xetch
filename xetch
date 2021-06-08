@@ -488,7 +488,7 @@ try:
     # sys.argv is a list of terminal argumemts
     if sys.argv[1] == '-c':
         print('''Art By: https://roly.neocities.org/
-Coded By: https://github.com/TruncatedDinosour''')
+Coded By: https://github.com/TruncatedDinosour/''')
         # sys.exit() exits the program
         sys.exit()
     elif sys.argv[1] == '-d':
