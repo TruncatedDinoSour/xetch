@@ -12,7 +12,7 @@ from colorama import Fore, Style
 
 ## info ##
 __date__    = "2021/03/14"
-__update__  = "2021/06/09"
+__update__  = "2021/06/08"
 __author__  = "B00bleaTea"
 __credits__ = ["https://roly.neocities.org/",
                "https://github.com/robtech21/",
@@ -55,7 +55,7 @@ def get_packages():
         try:
             installed_package_count = subprocess.check_output(pac.split(), shell=False).decode().split('\n')
             package_managers.append((pac.replace('-', ' ').split()[0],
-                                     len(installed_package_count)))
+                                     len(installed_package_count) - 1)) # the package managers seem to be addding a " " at the end of the list
         # if command failed
         except (FileNotFoundError, subprocess.CalledProcessError):
             pass
@@ -247,7 +247,7 @@ art_list = {
       {COLOUR_PALATE["orange"]}/\\\\        ]
      {COLOUR_PALATE["orange"]}/  \\\\       ]
     {COLOUR_PALATE["orange"]}/ {COLOUR_PALATE["magenta"]}/``{COLOUR_PALATE["magenta_purple"]}\\\\      ]
-   {COLOUR_PALATE["orange"]}/ {COLOUR_PALATE["magenta"]}/````{COLOUR_PALATE["magenta_purple"]}\\\\    ] 
+   {COLOUR_PALATE["orange"]}/ {COLOUR_PALATE["magenta"]}/````{COLOUR_PALATE["magenta_purple"]}\\\\    ]
  {COLOUR_PALATE["orange"]}/ {COLOUR_PALATE["magenta"]}-`````_) {COLOUR_PALATE["magenta_purple"]}\\    ]
  {COLOUR_PALATE["orange"]}/{COLOUR_PALATE["magenta"]}_-___`` {COLOUR_PALATE["magenta_purple"]}__=    ]
   {COLOUR_PALATE["orange"]}/={COLOUR_PALATE["magenta"]}====={COLOUR_PALATE["magenta_purple"]}--      ]''', ']'),
@@ -473,7 +473,7 @@ art_list = {
     "tinycore": make_art(f'''
   {COLOUR_PALATE["white_text"]},adPPYba,    ]
    {COLOUR_PALATE["white_text"]}a8\"     \"8a ]
-    {COLOUR_PALATE["white_text"]}8b    ]     
+    {COLOUR_PALATE["white_text"]}8b    ]
        {COLOUR_PALATE["white_text"]}d8      ]
         {COLOUR_PALATE["white_text"]}d8     ]
  {COLOUR_PALATE["white_text"]}\"8a,   ,a8\"   ]
