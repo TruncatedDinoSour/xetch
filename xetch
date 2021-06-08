@@ -12,7 +12,7 @@ from colorama import Fore, Style
 
 ## info ##
 __date__    = "2021/03/14"
-__update__  = "2021/06/08"
+__update__  = "2021/06/09"
 __author__  = "B00bleaTea"
 __credits__ = ["https://roly.neocities.org/",
                "https://github.com/robtech21/",
@@ -488,7 +488,7 @@ try:
     # sys.argv is a list of terminal argumemts
     if sys.argv[1] == '-c':
         print('''Art By: https://roly.neocities.org/
-Coded By: https://acactusinpain.neocities.org/''')
+Coded By: https://github.com/TruncatedDinosour''')
         # sys.exit() exits the program
         sys.exit()
     elif sys.argv[1] == '-d':
