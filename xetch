@@ -13,7 +13,7 @@ from colorama import Fore, Style
 ## info ##
 __date__    = "2021/03/14"
 __update__  = "2021/06/08"
-__author__  = "B00bleaTea"
+__author__  = "TruncatedDinosour"
 __credits__ = ["https://roly.neocities.org/",
                "https://github.com/robtech21/",
                "https://github.com/tempora/",
