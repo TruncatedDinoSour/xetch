@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 # ~*~ art by      : https://roly.neocities.org/ ~*~
-# ~*~ code by     : https://acactusinpain.neocities.org/ ~*~
-# ~*~ github repo : https://github.com/B00bleaTea/xetch ~*~
+# ~*~ code by     : https://github.com/TruncatedDinosour/ ~*~
+# ~*~ github repo : https://github.com/TruncatedDinosour/xetch ~*~
 
 import re, subprocess, getpass, socket, psutil, time, shutil, sys, functools, os
 from colorama import Fore, Style
