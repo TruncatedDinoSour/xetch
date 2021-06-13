@@ -248,7 +248,7 @@ art_list = {
       {COLOUR_PALATE["orange"]}/\\\\        ]
      {COLOUR_PALATE["orange"]}/  \\\\       ]
     {COLOUR_PALATE["orange"]}/ {COLOUR_PALATE["magenta"]}/``{COLOUR_PALATE["magenta_purple"]}\\\\      ]
-   {COLOUR_PALATE["orange"]}/ {COLOUR_PALATE["magenta"]}/````{COLOUR_PALATE["magenta_purple"]}\\\\    ]
+   {COLOUR_PALATE["orange"]}/ {COLOUR_PALATE["magenta"]}/````{COLOUR_PALATE["magenta_purple"]}\\\\     ]
  {COLOUR_PALATE["orange"]}/ {COLOUR_PALATE["magenta"]}-`````_) {COLOUR_PALATE["magenta_purple"]}\\    ]
  {COLOUR_PALATE["orange"]}/{COLOUR_PALATE["magenta"]}_-___`` {COLOUR_PALATE["magenta_purple"]}__=    ]
   {COLOUR_PALATE["orange"]}/={COLOUR_PALATE["magenta"]}====={COLOUR_PALATE["magenta_purple"]}--      ]''', ']'),
