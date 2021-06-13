@@ -2,14 +2,14 @@
 #### a simple GNU/linux tool for fetching sysinfo written in python
 ***
 ```
-                 ari@ari-arch
-       ,         os       | Arch Linux
-      ,,,        kernel   | 5.12.9-arch1-1
-     ,,,,,       uptime   | 1h 52m 1s
-    ,,,,,,,      packages | pacman (601) [601]
-   ,,,,,,,,,     disk     | 14/233GB [6%]
-  .,,*   *,,.    ram usage| 903/3840MB [24%]
- .,         ,.   terminal | st-256color
+              ari@ari-gentoo
+ _-----__     os       | Gentoo
+ (       \\   kernel   | 5.10.27-gentoo-x86_64
+ \\   0  \\   uptime   | 0h 24m 40s
+  \\     )    packages | equery (265) [265]
+ (     _/     disk     | 6/73GB [8%]
+ \\    /      ram usage| 88/2020MB [4%]
+   ⎻⎻⎻        terminal | st-256color
 ```
 
 ### Sha512 checksum (shasum -a 512) of /xetch: 
