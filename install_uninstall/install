@@ -1,14 +1,14 @@
-#! /bin/sh
+#!/usr/bin/sh
 
-echo 'press <ENTER> to install xetch (any other installation of xetch will be overwritten)...'
+echo "press <ENTER> to install xetch (any other installation of xetch will be overwritten)..."
 read -p "" x
 
-chmod +x ../xetch
+chmod r+rx ../xetch
 
 python3 -m pip install -r ../requirements.txt || pip3 install -r ../requirements.txt || pip install -r ../requirements.txt
 
 sudo cp ../xetch /usr/local/bin/xetch
-sudo chmod +x /usr/local/bin/xetch
+sudo chmod a+rx /usr/local/bin/xetch
 
 echo
-echo 'thanks for installing xetch :D'
+echo "thanks for installing xetch :D"
