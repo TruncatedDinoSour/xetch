@@ -473,7 +473,7 @@ art_list = {
     # tiny core :)
     "tinycore": make_art(f'''
   {COLOUR_PALATE["white_text"]},adPPYba,    ]
-   {COLOUR_PALATE["white_text"]}a8\"     \"8 ]
+   {COLOUR_PALATE["white_text"]}a8\"     \"8  ]
     {COLOUR_PALATE["white_text"]}8b         ]
        {COLOUR_PALATE["white_text"]}d8      ]
         {COLOUR_PALATE["white_text"]}d8     ]
