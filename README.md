@@ -41,7 +41,7 @@ $ ./uninstall
 
 ### Customization
 ```shell
-$ sudo nano /usr/bin/xetch
+$ sudo nano /usr/local/bin/xetch
 ```
 - edit the ASCII art at the end of the file
 - and/or edit the colour palate
