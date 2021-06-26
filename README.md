@@ -33,7 +33,7 @@ $ xetch
 
 ### Removal
 ```shell
-$ https://github.com/TruncatedDinosour/xetch/
+$ git clone https://github.com/TruncatedDinosour/xetch/
 $ cd xetch/install_uninstall/
 $ chmod +x ./uninstall
 $ ./uninstall
