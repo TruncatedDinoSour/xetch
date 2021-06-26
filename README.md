@@ -8,7 +8,7 @@
  \\   0  \\   uptime   | 0h 24m 40s
   \\     )    packages | equery (265) [265]
  (     _/     disk     | 6/73GB [8%]
- \\    /      ram usage| 88/2020MB [4%]
+ \\    /      ram usage| 88/3839MB [4%]
    ⎻⎻⎻        terminal | st-256color
 ```
 
