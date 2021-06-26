@@ -24,7 +24,7 @@ $ shasum -a 512 [file]
 
 ### Installation
 ```shell
-$ https://github.com/TruncatedDinosour/xetch/
+$ git clone https://github.com/TruncatedDinosour/xetch/
 $ cd xetch/install_uninstall/
 $ chmod +x ./install
 $ ./install
