@@ -1,16 +1,7 @@
 ### xetch
 #### a simple GNU/linux tool for fetching sysinfo written in python
 ***
-```
-              ari@ari-gentoo
- _-----__     os       | Gentoo
- (       \\   kernel   | 5.10.27-gentoo-x86_64
- \\   0  \\   uptime   | 0h 24m 40s
-  \\     )    packages | equery (265) [265]
- (     _/     disk     | 6/73GB [8%]
- \\    /      ram usage| 88/3839MB [4%]
-   ⎻⎻⎻        terminal | st-256color
-```
+![image](https://user-images.githubusercontent.com/71613062/139156523-dfe63cbd-78ab-40cd-9347-f6b2485c8736.png)
 
 ### Sha512 checksum (shasum -a 512) of /xetch: 
 ```
